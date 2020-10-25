@@ -47,16 +47,14 @@ function App() {
 
   function SignOut() {
     return (
-      auth.currentUser && (
-        <button onClick={() => auth.SignOut()}>Sign Out</button>
-      )
+      auth.currentUser && <button onClick={() => auth.SignOut}>Sign Out</button>
     );
   }
 
   function ChatRoom() {
     const messagesRef = firestore.collection("messages");
     const query = messagesRef.orderBy("createdAt").limit(25);
-    const [messages] = useCollectionData(query); // , { idField: id }
+    const [messages] = useCollectionData(query, { idField: "id" });
     const [formValue, setFormValue] = useState("");
 
     const sendMessage = async (e) => {
@@ -86,6 +84,8 @@ function App() {
           />
           <button type="submit">Send</button>
         </form>
+        <hr />
+        <SignOut />
       </>
     );
   }
@@ -97,7 +97,7 @@ function App() {
     return (
       <div className={`message ${messageClass}`}>
         <img src={photoURL} alt="Puppy pics" />
-        <p>Text is here... {text}</p>
+        <p>{text}</p>
       </div>
     );
   }
